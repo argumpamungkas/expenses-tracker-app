@@ -57,6 +57,7 @@ class Cart extends StatelessWidget {
               children: [
                 for (var bucket in buckets)
                   CartBar(
+                    expense: bucket.totalExpense == 0 ? 0 : bucket.totalExpense,
                     fill: bucket.totalExpense == 0
                         ? 0
                         : bucket.totalExpense / maxTotalExpense,
