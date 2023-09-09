@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 
-DateFormat formatter = DateFormat.yMd();
+DateFormat formatter = DateFormat('dd MMM yy');
 
 NumberFormat idrFormat =
     NumberFormat.currency(locale: 'id', symbol: "Rp ", decimalDigits: 0);

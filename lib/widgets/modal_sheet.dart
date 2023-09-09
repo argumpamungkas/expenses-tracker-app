@@ -3,19 +3,40 @@ import 'package:expense_tracker/util/util.dart';
 import 'package:flutter/material.dart';
 
 class ModalSheet extends StatefulWidget {
-  ModalSheet({super.key, required this.onAddExpense});
+  ModalSheet(
+      {super.key,
+      this.onAddExpense,
+      this.onUpdateExpense,
+      this.expense,
+      this.index});
 
-  void Function(Expense expense) onAddExpense;
+  void Function(Expense expense)? onAddExpense;
+  void Function(Expense expense, int index)? onUpdateExpense;
+
+  Expense? expense;
+  int? index;
 
   @override
   State<ModalSheet> createState() => _ModalSheetState();
 }
 
 class _ModalSheetState extends State<ModalSheet> {
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _amountController = TextEditingController();
+  TextEditingController _titleController = TextEditingController();
+  TextEditingController _amountController = TextEditingController();
   DateTime? _selectedDate;
   Category _selectedCategory = Category.food;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.expense != null) {
+      _titleController = TextEditingController(text: widget.expense!.title);
+      _amountController = TextEditingController(
+          text: formatNumber("${widget.expense!.amount}".replaceAll(".", "")));
+      _selectedDate = widget.expense!.date;
+      _selectedCategory = widget.expense!.category;
+    }
+  }
 
   void _openDatePicker() async {
     final now = DateTime.now();
@@ -69,13 +90,26 @@ class _ModalSheetState extends State<ModalSheet> {
       return;
     }
 
-    widget.onAddExpense(
-      Expense(
+    if (widget.expense != null) {
+      widget.onUpdateExpense!(
+        Expense(
+            title: _titleController.text,
+            amount: amountConvert,
+            date: _selectedDate!,
+            category: _selectedCategory),
+        widget.index!,
+      );
+    } else {
+      widget.onAddExpense!(
+        Expense(
           title: _titleController.text,
           amount: amountConvert,
           date: _selectedDate!,
-          category: _selectedCategory),
-    );
+          category: _selectedCategory,
+        ),
+      );
+    }
+
     Navigator.pop(context);
   }
 
@@ -111,9 +145,11 @@ class _ModalSheetState extends State<ModalSheet> {
                   onChanged: (value) {
                     value = formatNumber(value.replaceAll(".", ""));
                     _amountController.value = TextEditingValue(
-                        text: value,
-                        selection:
-                            TextSelection.collapsed(offset: value.length));
+                      text: value,
+                      selection: TextSelection.collapsed(
+                        offset: value.length,
+                      ),
+                    );
                   },
                   decoration: const InputDecoration(
                     prefixText: 'Rp ',

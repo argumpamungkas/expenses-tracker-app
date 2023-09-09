@@ -21,6 +21,15 @@ class _ExpensesState extends State<Expenses> {
     });
   }
 
+  void _updateExpense(Expense expense, int index) {
+    setState(() {
+      _listExpenses[index].title = expense.title;
+      _listExpenses[index].amount = expense.amount;
+      _listExpenses[index].date = expense.date;
+      _listExpenses[index].category = expense.category;
+    });
+  }
+
   void _removeExpense(Expense expense) {
     final indexExpense = _listExpenses.indexOf(expense);
     setState(() {
@@ -109,6 +118,17 @@ class _ExpensesState extends State<Expenses> {
     );
   }
 
+  void _openExpenseOverlayUpdate(Expense expense, int index) {
+    showModalBottomSheet(
+      context: context,
+      isDismissible: false,
+      showDragHandle: true,
+      useSafeArea: true,
+      builder: (ctx) => ModalSheet(
+          onUpdateExpense: _updateExpense, expense: expense, index: index),
+    );
+  }
+
   int get _getTotalExpense {
     int total = 0;
 
@@ -139,6 +159,7 @@ class _ExpensesState extends State<Expenses> {
             child: ExpensesList(
               expenses: _listExpenses,
               onRemoveExpense: _removeExpense,
+              onUpdateExpense: _openExpenseOverlayUpdate,
             ),
           ),
         ],

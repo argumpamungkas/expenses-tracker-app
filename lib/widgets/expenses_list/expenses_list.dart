@@ -4,10 +4,14 @@ import 'package:flutter/material.dart';
 
 class ExpensesList extends StatelessWidget {
   ExpensesList(
-      {super.key, required this.expenses, required this.onRemoveExpense});
+      {super.key,
+      required this.expenses,
+      required this.onRemoveExpense,
+      required this.onUpdateExpense});
 
   final List<Expense> expenses;
   void Function(Expense expense) onRemoveExpense;
+  void Function(Expense expense, int index) onUpdateExpense;
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +48,8 @@ class ExpensesList extends StatelessWidget {
         },
         child: ExpenseItem(
           expense: expenses[index],
+          onOpenModal: onUpdateExpense,
+          index: index,
         ),
       ),
     );
