@@ -30,7 +30,8 @@ class _ExpensesState extends State<Expenses> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         duration: const Duration(seconds: 3),
-        content: Text("Deleted ${expense.title}"),
+        backgroundColor: Colors.green,
+        content: Text("Deleted ${expense.title} success"),
         action: SnackBarAction(
           label: "Undo",
           onPressed: () {
@@ -38,6 +39,38 @@ class _ExpensesState extends State<Expenses> {
               _listExpenses.insert(indexExpense, expense);
             });
           },
+        ),
+      ),
+    );
+  }
+
+  void _showDelete() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: 10),
+            const Text("Are you sure Delete All expense?"),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red.shade700,
+                      foregroundColor: Colors.white,
+                    ),
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text("Cancel")),
+                TextButton(
+                    onPressed: () =>
+                        {_removeAllExpense(), Navigator.pop(context)},
+                    child: const Text("Yes")),
+              ],
+            )
+          ],
         ),
       ),
     );
@@ -51,9 +84,11 @@ class _ExpensesState extends State<Expenses> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         duration: const Duration(seconds: 3),
-        content: const Text("Deleted All"),
+        content: const Text("Success deleted all expense"),
+        backgroundColor: Colors.green,
         action: SnackBarAction(
           label: "Undo",
+          textColor: Colors.white,
           onPressed: () {
             setState(() {
               _listExpenses.insertAll(0, undExpese);
@@ -69,7 +104,6 @@ class _ExpensesState extends State<Expenses> {
       context: context,
       isDismissible: false,
       showDragHandle: true,
-      isScrollControlled: true,
       useSafeArea: true,
       builder: (ctx) => ModalSheet(onAddExpense: _addExpense),
     );
@@ -97,7 +131,7 @@ class _ExpensesState extends State<Expenses> {
             alignment: Alignment.centerRight,
             margin: const EdgeInsets.only(right: 16),
             child: ElevatedButton(
-              onPressed: _removeAllExpense,
+              onPressed: _showDelete,
               child: const Text("Delete All"),
             ),
           ),
@@ -113,12 +147,14 @@ class _ExpensesState extends State<Expenses> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Expenses App"),
+        centerTitle: true,
         actions: [
-          IconButton(
-            onPressed: _openExpenseOverlay,
-            icon: const Icon(Icons.add),
-          ),
+          IconButton(onPressed: () {}, icon: const Icon(Icons.note_sharp))
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _openExpenseOverlay,
+        child: const Icon(Icons.add),
       ),
       body: mainContent,
     );

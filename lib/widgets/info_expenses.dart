@@ -1,4 +1,4 @@
-import 'package:expense_tracker/models/expense.dart';
+import 'package:expense_tracker/util/util.dart';
 import 'package:flutter/material.dart';
 
 class InfoExpenses extends StatelessWidget {
@@ -25,12 +25,16 @@ class InfoExpenses extends StatelessWidget {
           const SizedBox(width: 10),
           RichText(
             text: TextSpan(
-              text: "You are expense ",
-              style: TextStyle(color: Theme.of(context).colorScheme.primary),
+              text: "Today, You are expense ",
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+              ),
               children: [
                 TextSpan(
-                  text: "${idrFormat.format(totalExpense)} ",
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+                  text: "${idrFormat.format(totalExpense)}.",
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
             ),

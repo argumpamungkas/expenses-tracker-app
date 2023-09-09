@@ -1,6 +1,4 @@
-import 'package:expense_tracker/models/expense.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class CartBar extends StatelessWidget {
   CartBar({super.key, required this.fill, required this.expense});
@@ -26,12 +24,8 @@ class CartBar extends StatelessWidget {
                   : Theme.of(context).colorScheme.primary.withOpacity(0.8),
               shape: BoxShape.rectangle,
               borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(10),
+                top: Radius.circular(16),
               ),
-            ),
-            child: Text(
-              NumberFormat.currency(locale: 'id', symbol: '').format(expense),
-              style: const TextStyle(fontSize: 10, color: Colors.white),
             ),
           ),
         ),

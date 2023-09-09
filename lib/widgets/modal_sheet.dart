@@ -1,4 +1,5 @@
 import 'package:expense_tracker/models/expense.dart';
+import 'package:expense_tracker/util/util.dart';
 import 'package:flutter/material.dart';
 
 class ModalSheet extends StatefulWidget {
@@ -32,7 +33,8 @@ class _ModalSheetState extends State<ModalSheet> {
   }
 
   void _submitExpense() {
-    final amountConvert = int.tryParse(_amountController.text);
+    final amountConvert =
+        int.tryParse(_amountController.text.replaceAll(".", ""));
     final amountIsInvalid = amountConvert == null || amountConvert <= 0;
     if (_titleController.text.trim().isEmpty ||
         amountIsInvalid ||
@@ -92,6 +94,7 @@ class _ModalSheetState extends State<ModalSheet> {
         children: [
           TextField(
             controller: _titleController,
+            textInputAction: TextInputAction.next,
             maxLength: 50,
             maxLines: 1,
             decoration: const InputDecoration(
@@ -105,6 +108,13 @@ class _ModalSheetState extends State<ModalSheet> {
                   controller: _amountController,
                   maxLines: 1,
                   keyboardType: TextInputType.number,
+                  onChanged: (value) {
+                    value = formatNumber(value.replaceAll(".", ""));
+                    _amountController.value = TextEditingValue(
+                        text: value,
+                        selection:
+                            TextSelection.collapsed(offset: value.length));
+                  },
                   decoration: const InputDecoration(
                     prefixText: 'Rp ',
                     label: Text("Amount"),

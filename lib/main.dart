@@ -1,5 +1,6 @@
 import 'package:expense_tracker/widgets/expenses.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 var kColorScheme = ColorScheme.fromSeed(seedColor: const Color(0xFF0C356A));
 var kDarkColorScheme = ColorScheme.fromSeed(
@@ -8,6 +9,9 @@ var kDarkColorScheme = ColorScheme.fromSeed(
 );
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     darkTheme: ThemeData.dark().copyWith(
@@ -39,6 +43,27 @@ void main() {
         margin: const EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 5,
+        ),
+      ),
+      listTileTheme: const ListTileThemeData().copyWith(
+        iconColor: kColorScheme.primary,
+        tileColor: kColorScheme.secondaryContainer,
+        titleTextStyle: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 18,
+          color: kColorScheme.primary,
+        ),
+        subtitleTextStyle: TextStyle(
+          fontSize: 12,
+          color: kColorScheme.primary,
+        ),
+        leadingAndTrailingTextStyle: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 15,
+          color: kColorScheme.primary,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(

@@ -1,20 +1,14 @@
+import 'package:expense_tracker/util/util.dart';
 import 'package:flutter/material.dart';
-import 'package:uuid/uuid.dart';
-import 'package:intl/intl.dart';
 
-DateFormat formatter = DateFormat.yMd();
-
-NumberFormat idrFormat = NumberFormat.currency(locale: 'id', symbol: "Rp ");
-
-const uuid = Uuid();
-
-enum Category { food, travel, leisure, work }
+enum Category { food, shopping, holiday, work, others }
 
 const iconCategory = {
-  Category.food: Icons.lunch_dining,
-  Category.travel: Icons.flight,
-  Category.leisure: Icons.movie,
+  Category.food: Icons.food_bank_rounded,
+  Category.shopping: Icons.shopify,
+  Category.holiday: Icons.tag_faces_rounded,
   Category.work: Icons.work,
+  Category.others: Icons.apps,
 };
 
 class Expense {
