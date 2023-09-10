@@ -12,18 +12,42 @@ const iconCategory = {
 };
 
 class Expense {
-  String id;
+  String? id;
   String title;
   int amount;
   DateTime date;
   Category category;
 
   Expense({
+    required this.id,
     required this.title,
     required this.amount,
     required this.date,
     required this.category,
-  }) : id = uuid.v4();
+  });
+
+  factory Expense.fromMap(Map<String, dynamic> map) {
+    Category category;
+
+    if (map['category'] == 'food') {
+      category = Category.food;
+    } else if (map['category'] == 'shopping') {
+      category = Category.shopping;
+    } else if (map['category'] == 'holiday') {
+      category = Category.holiday;
+    } else if (map['category'] == 'work') {
+      category = Category.work;
+    } else {
+      category = Category.others;
+    }
+    return Expense(
+      id: map['uuid'],
+      title: map['title'],
+      amount: map['amount'],
+      date: DateTime.parse(map['date']),
+      category: category,
+    );
+  }
 
   String get formattedAmount => idrFormat.format(amount);
 

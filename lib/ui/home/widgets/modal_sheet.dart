@@ -3,18 +3,17 @@ import 'package:expense_tracker/util/util.dart';
 import 'package:flutter/material.dart';
 
 class ModalSheet extends StatefulWidget {
-  ModalSheet(
-      {super.key,
-      this.onAddExpense,
-      this.onUpdateExpense,
-      this.expense,
-      this.index});
+  ModalSheet({
+    super.key,
+    this.onAddExpense,
+    this.onUpdateExpense,
+    this.expense,
+  });
 
   void Function(Expense expense)? onAddExpense;
-  void Function(Expense expense, int index)? onUpdateExpense;
+  void Function(Expense expense)? onUpdateExpense;
 
   Expense? expense;
-  int? index;
 
   @override
   State<ModalSheet> createState() => _ModalSheetState();
@@ -93,15 +92,16 @@ class _ModalSheetState extends State<ModalSheet> {
     if (widget.expense != null) {
       widget.onUpdateExpense!(
         Expense(
+            id: widget.expense!.id,
             title: _titleController.text,
             amount: amountConvert,
             date: _selectedDate!,
             category: _selectedCategory),
-        widget.index!,
       );
     } else {
       widget.onAddExpense!(
         Expense(
+          id: uuid.v4(),
           title: _titleController.text,
           amount: amountConvert,
           date: _selectedDate!,
