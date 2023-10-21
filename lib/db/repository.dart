@@ -21,10 +21,10 @@ class Repository {
     );
   }
 
-  Future<List<Expense>> getAllExpense() async {
+  Future<List<Expense>> getAllExpense(String ordBy, String sort) async {
     Database db = await dbManager.db;
 
-    List allExpense = await db.query("expenses", orderBy: "id DESC");
+    List allExpense = await db.query("expenses", orderBy: "$ordBy $sort");
     if (allExpense.isEmpty) {
       return [];
     } else {

@@ -92,7 +92,7 @@ class ExpenseApp extends StatelessWidget {
       initialRoute: "/",
       routes: {
         "/": (context) => const Expenses(),
-        "/all_expense": (context) => const AllExpenseView(),
+        "/all_expense": (context) => AllExpenseView(),
       },
     );
   }

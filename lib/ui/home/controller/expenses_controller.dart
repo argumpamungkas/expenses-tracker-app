@@ -12,7 +12,7 @@ class ExpensesController {
   }
 
   Future<List<Expense>> getAllExpense() async {
-    listExpenses = await repoDb.getAllExpense();
+    listExpenses = await repoDb.getAllExpense("id", "desc");
     return listExpenses;
   }
 

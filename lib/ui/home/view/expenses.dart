@@ -128,7 +128,9 @@ class _ExpensesState extends State<Expenses> {
         future: _expensesController.getAllExpense(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            const Center(child: Text("No Data Expense"));
+            const Center(
+              child: Text("No Data Expense"),
+            );
           }
           return _expensesController.listExpenses.isEmpty
               ? const Center(child: Text("No Data Expense"))
