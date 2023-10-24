@@ -1,4 +1,5 @@
 import 'package:expense_tracker/ui/all_expense/view/all_expense_view.dart';
+import 'package:expense_tracker/ui/detail_month_expense/detail_month_expense_view.dart';
 import 'package:expense_tracker/ui/home/view/expenses.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -93,6 +94,7 @@ class ExpenseApp extends StatelessWidget {
       routes: {
         "/": (context) => const Expenses(),
         "/all_expense": (context) => AllExpenseView(),
+        "/detail_expense": (context) => DetailMonthExpenseView(),
       },
     );
   }

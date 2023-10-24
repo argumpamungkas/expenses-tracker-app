@@ -1,6 +1,8 @@
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/ui/all_expense/controller/all_view_controller.dart';
+import 'package:expense_tracker/util/util.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class AllExpenseView extends StatelessWidget {
   AllExpenseView({super.key});
@@ -33,48 +35,82 @@ class AllExpenseView extends StatelessWidget {
                 ? const Center(
                     child: Text("No data expense"),
                   )
-                : ListView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    itemCount: _allViewController.dateExpesne.length,
-                    itemBuilder: (context, index) {
-                      var dateExp =
-                          _allViewController.dateExpesne.elementAt(index);
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.only(
-                              top: 16,
-                              left: 8,
-                              bottom: 4,
+                : Container(
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 5,
+                    ),
+                    child: GridView.builder(
+                      itemCount: _allViewController.dateMonth.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        crossAxisSpacing: 6,
+                        mainAxisSpacing: 6,
+                        childAspectRatio: 1.5 / 1,
+                      ),
+                      itemBuilder: (context, index) {
+                        var month =
+                            _allViewController.dateMonth.elementAt(index);
+
+                        var total = 0;
+                        for (var exp in _allViewController.listExpense) {
+                          var dateExp = DateFormat("MMMM").format(exp.date);
+                          if (dateExp == month) {
+                            total += exp.amount;
+                          }
+                        }
+                        return InkWell(
+                          onTap: () =>
+                              Navigator.pushNamed(context, "/detail_expense"),
+                          borderRadius: BorderRadius.circular(16),
+                          splashColor: Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withOpacity(0.2),
+                          highlightColor: Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withOpacity(0.2),
+                          child: Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .primary
+                                      .withOpacity(0.5),
+                                  width: 2),
                             ),
-                            width: MediaQuery.of(context).size.width,
-                            child: Text(
-                              dateExp,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "$month",
+                                  style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  idrFormat.format(total),
+                                  style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          Column(
-                              children:
-                                  _allViewController.listExpense.map((expense) {
-                            return expense.formattedDate == dateExp
-                                ? Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 6),
-                                    child: ListTile(
-                                      leading:
-                                          Icon(iconCategory[expense.category]),
-                                      title: Text(expense.title),
-                                      subtitle: Text(expense.formattedAmount),
-                                    ),
-                                  )
-                                : Container();
-                          }).toList()),
-                        ],
-                      );
-                    },
+                        );
+                      },
+                    ),
                   );
           },
         ));
