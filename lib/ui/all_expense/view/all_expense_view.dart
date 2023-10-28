@@ -1,13 +1,33 @@
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/ui/all_expense/controller/all_view_controller.dart';
+import 'package:expense_tracker/ui/detail_month_expense/detail_month_expense_view.dart';
 import 'package:expense_tracker/util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class AllExpenseView extends StatelessWidget {
+  static const routeName = "/all_expenses_view";
+
   AllExpenseView({super.key});
 
   final AllViewController _allViewController = AllViewController();
+
+  Future<List<Expense>> getExpenseMonth(dynamic dateMonth) async {
+    List<Expense> listExp = [];
+
+    if (listExp.isNotEmpty) {
+      listExp.clear();
+    }
+
+    for (var exp in _allViewController.listExpense) {
+      var dateExp = DateFormat("MMMM").format(exp.date);
+      if (dateExp == dateMonth) {
+        listExp.add(exp);
+      }
+    }
+
+    return listExp;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,9 +80,21 @@ class AllExpenseView extends StatelessWidget {
                             total += exp.amount;
                           }
                         }
+
                         return InkWell(
-                          onTap: () =>
-                              Navigator.pushNamed(context, "/detail_expense"),
+                          onTap: () async {
+                            var dataExp = await getExpenseMonth(month);
+
+                            // ignore: use_build_context_synchronously
+                            Navigator.pushNamed(
+                              context,
+                              DetailMonthExpenseView.routeName,
+                              arguments: {
+                                "listExp": dataExp,
+                                "month": month,
+                              },
+                            );
+                          },
                           borderRadius: BorderRadius.circular(16),
                           splashColor: Theme.of(context)
                               .colorScheme

@@ -1,3 +1,4 @@
+import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/ui/all_expense/view/all_expense_view.dart';
 import 'package:expense_tracker/ui/detail_month_expense/detail_month_expense_view.dart';
 import 'package:expense_tracker/ui/home/view/expenses.dart';
@@ -90,11 +91,18 @@ class ExpenseApp extends StatelessWidget {
             ),
       ),
       themeMode: ThemeMode.light,
-      initialRoute: "/",
+      initialRoute: Expenses.routeName,
       routes: {
-        "/": (context) => const Expenses(),
-        "/all_expense": (context) => AllExpenseView(),
-        "/detail_expense": (context) => DetailMonthExpenseView(),
+        Expenses.routeName: (context) => const Expenses(),
+        AllExpenseView.routeName: (context) => AllExpenseView(),
+        DetailMonthExpenseView.routeName: (context) {
+          Map<String, dynamic> args = ModalRoute.of(context)!.settings.arguments
+              as Map<String, dynamic>;
+          return DetailMonthExpenseView(
+            listExp: args["listExp"] as List<Expense>,
+            month: args["month"] as String,
+          );
+        },
       },
     );
   }

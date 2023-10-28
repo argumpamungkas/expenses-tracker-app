@@ -1,13 +1,24 @@
+import 'package:expense_tracker/models/expense.dart';
 import 'package:flutter/material.dart';
 
 class DetailMonthExpenseView extends StatelessWidget {
-  const DetailMonthExpenseView({super.key});
+  static const routeName = "/detail_month_expense";
+
+  DetailMonthExpenseView(
+      {super.key, required this.month, required this.listExp});
+
+  String month;
+  List<Expense> listExp;
 
   @override
   Widget build(BuildContext context) {
+    for (var data in listExp) {
+      print(data.title);
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Month"),
+        title: Text(month.toUpperCase()),
         centerTitle: true,
       ),
       body: const Center(

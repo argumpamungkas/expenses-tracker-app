@@ -1,3 +1,4 @@
+import 'package:expense_tracker/ui/all_expense/view/all_expense_view.dart';
 import 'package:expense_tracker/ui/home/controller/expenses_controller.dart';
 import 'package:expense_tracker/ui/home/widgets/info_expenses.dart';
 import 'package:expense_tracker/ui/home/widgets/cart/cart.dart';
@@ -8,6 +9,8 @@ import 'package:expense_tracker/ui/home/widgets/show_dialog_delete.dart';
 import 'package:flutter/material.dart';
 
 class Expenses extends StatefulWidget {
+  static const routeName = "/expenses";
+
   const Expenses({super.key});
 
   @override
@@ -115,7 +118,8 @@ class _ExpensesState extends State<Expenses> {
         centerTitle: true,
         actions: [
           TextButton(
-            onPressed: () => Navigator.pushNamed(context, "/all_expense"),
+            onPressed: () =>
+                Navigator.pushNamed(context, AllExpenseView.routeName),
             child: const Text("VIEW ALL"),
           ),
         ],
