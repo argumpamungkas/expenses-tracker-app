@@ -2,6 +2,7 @@ import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/ui/all_expense/view/all_expense_view.dart';
 import 'package:expense_tracker/ui/detail_month_expense/detail_month_expense_view.dart';
 import 'package:expense_tracker/ui/home/view/expenses.dart';
+import 'package:expense_tracker/ui/splash/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -91,8 +92,9 @@ class ExpenseApp extends StatelessWidget {
             ),
       ),
       themeMode: ThemeMode.light,
-      initialRoute: Expenses.routeName,
+      initialRoute: SplashPage.routeName,
       routes: {
+        SplashPage.routeName: (context) => const SplashPage(),
         Expenses.routeName: (context) => const Expenses(),
         AllExpenseView.routeName: (context) => AllExpenseView(),
         DetailMonthExpenseView.routeName: (context) {

@@ -75,7 +75,7 @@ class AllExpenseView extends StatelessWidget {
 
                         var total = 0;
                         for (var exp in _allViewController.listExpense) {
-                          var dateExp = DateFormat("MMMM").format(exp.date);
+                          var dateExp = DateFormat("MMMM yyy").format(exp.date);
                           if (dateExp == month) {
                             total += exp.amount;
                           }
@@ -83,17 +83,20 @@ class AllExpenseView extends StatelessWidget {
 
                         return InkWell(
                           onTap: () async {
+                            showDialogLoading(context);
                             var dataExp = await getExpenseMonth(month);
 
-                            // ignore: use_build_context_synchronously
-                            Navigator.pushNamed(
-                              context,
-                              DetailMonthExpenseView.routeName,
-                              arguments: {
-                                "listExp": dataExp,
-                                "month": month,
-                              },
-                            );
+                            Future.delayed(const Duration(seconds: 2), () {
+                              Navigator.pop(context);
+                              Navigator.pushNamed(
+                                context,
+                                DetailMonthExpenseView.routeName,
+                                arguments: {
+                                  "listExp": dataExp,
+                                  "month": month,
+                                },
+                              );
+                            });
                           },
                           borderRadius: BorderRadius.circular(16),
                           splashColor: Theme.of(context)
@@ -119,12 +122,12 @@ class AllExpenseView extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "$month",
+                                  "$month".toUpperCase(),
                                   style: TextStyle(
                                     color:
                                         Theme.of(context).colorScheme.primary,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 16,
+                                    fontSize: 12,
                                   ),
                                 ),
                                 const SizedBox(height: 4),

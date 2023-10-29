@@ -131,39 +131,43 @@ class _ExpensesState extends State<Expenses> {
       body: FutureBuilder<List<Expense>>(
         future: _expensesController.getAllExpense(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: Text("Loading..."),
+            );
+          }
+
+          if (!snapshot.hasData || _expensesController.listExpenses.isEmpty) {
             const Center(
               child: Text("No Data Expense"),
             );
           }
-          return _expensesController.listExpenses.isEmpty
-              ? const Center(child: Text("No Data Expense"))
-              : Column(
-                  children: [
-                    InfoExpenses(
-                        totalExpense: _expensesController.getTotalExpense),
-                    Cart(expenses: _expensesController.listExpenses),
-                    Container(
-                      alignment: Alignment.centerRight,
-                      margin: const EdgeInsets.only(right: 16, left: 16),
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                      ),
-                      child: ElevatedButton(
-                        onPressed: _showDialogDelete,
-                        child: const Text("Delete All"),
-                      ),
-                    ),
-                    Expanded(
-                      child: ExpensesList(
-                        expenses: _expensesController.listExpenses,
-                        onRemoveExpense: _removeExpense,
-                        onUpdateExpense: _openExpenseOverlayUpdate,
-                      ),
-                    ),
-                  ],
-                );
+
+          return Column(
+            children: [
+              InfoExpenses(totalExpense: _expensesController.getTotalExpense),
+              Cart(expenses: _expensesController.listExpenses),
+              Container(
+                alignment: Alignment.centerRight,
+                margin: const EdgeInsets.only(right: 16, left: 16),
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                ),
+                child: ElevatedButton(
+                  onPressed: _showDialogDelete,
+                  child: const Text("Delete All"),
+                ),
+              ),
+              Expanded(
+                child: ExpensesList(
+                  expenses: _expensesController.listExpenses,
+                  onRemoveExpense: _removeExpense,
+                  onUpdateExpense: _openExpenseOverlayUpdate,
+                ),
+              ),
+            ],
+          );
         },
       ),
     );

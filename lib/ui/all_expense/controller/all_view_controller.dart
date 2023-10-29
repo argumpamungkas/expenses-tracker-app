@@ -14,7 +14,7 @@ class AllViewController {
     for (var dateExp in listExpense) {
       dateExpesne.add(dateExp.date);
 
-      var month = DateFormat("MMMM").format(dateExp.date);
+      var month = DateFormat("MMMM yyy").format(dateExp.date);
       dateMonth.add(month);
     }
     return listExpense;
